@@ -1,11 +1,14 @@
-// Ordinarily, you'd generate this data from markdown files in your
-// repo, or fetch them from a database of some kind. But in order to
-// avoid unnecessary dependencies in the starter template, and in the
-// service of obviousness, we're just going to leave it here.
+function loadIndex() {
+  const index = posts.map((post) => ({ title: post.title, slug: post.slug }))
 
-// This file is called `_posts.js` rather than `posts.js`, because
-// we don't want to create an `/blog/posts` route — the leading
-// underscore tells Sapper not to do that.
+  return Promise.resolve(index)
+}
+
+function loadPost(slug) {
+  const post = posts.find((post) => post.slug === slug)
+
+  return Promise.resolve(post)
+}
 
 const posts = [
   {
@@ -89,4 +92,4 @@ posts.forEach((post) => {
   post.html = post.html.replace(/^\t{3}/gm, "")
 })
 
-export default posts
+export { loadIndex, loadPost }
