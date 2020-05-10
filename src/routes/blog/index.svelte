@@ -2,9 +2,13 @@
   import { loadIndex } from "./_utils"
 
   export async function preload({ params, query }) {
-    const posts = await loadIndex()
+    try {
+      const posts = await loadIndex(this.fetch)()
 
-    return { posts }
+      return { posts }
+    } catch (e) {
+      this.error(500, "Page unavailable")
+    }
   }
 </script>
 

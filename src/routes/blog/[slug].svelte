@@ -2,14 +2,17 @@
   import { loadPost } from "./_utils"
 
   export async function preload({ params, query }) {
-    // the `slug` parameter is available because
-    // this file is called [slug].svelte
-    const post = await loadPost(params.slug)
-
-    if (post) {
+    try {
+      // the `slug` parameter is available because
+      // this file is called [slug].svelte
+      const post = await loadPost(this.fetch)(params.slug)
       return { post }
-    } else {
-      this.error(404, "Not found")
+    } catch (e) {
+      if (e.message === "Not found") {
+        this.error(404, "Not found")
+      } else {
+        this.error(500, "Page unavailable")
+      }
     }
   }
 </script>
