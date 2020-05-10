@@ -1,0 +1,5 @@
+{
+  "src/**/*.{svelte,js,scss,json}": [
+    "prettier --write"
+  ]
+}
