@@ -11,6 +11,7 @@
     "cy:open": "cypress open",
     "test": "run-p --race dev cy:run",
     "pre-commit": "lint-staged",
+    "check-types": "tsc --noEmit",
     "commit": "yarn pre-commit && git-cz"
   },
   "config": {
@@ -28,6 +29,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@babel/preset-typescript": "^7.9.0",
     "@babel/runtime": "^7.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-node-resolve": "^7.0.0",
@@ -47,6 +49,7 @@
     "sapper": "^0.27.0",
     "sass": "^1.26.5",
     "svelte": "^3.0.0",
-    "svelte-preprocess": "^3.7.4"
+    "svelte-preprocess": "^3.7.4",
+    "typescript": "^3.9.2"
   }
 }

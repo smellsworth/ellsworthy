@@ -1,8 +1,8 @@
 const PRISMIC_URL = "https://mattellsworth-test.prismic.io/api/v2"
 
-const getMasterRef = async (fetcher) => {
+const getMasterRef = async (fetcher: typeof fetch) => {
   const response = await fetcher(PRISMIC_URL)
-  const data = await response.json()
+  const data: PrismicApiInfo = await response.json()
   const masterRef = data.refs
     ? data.refs.find(({ isMasterRef }) => isMasterRef)
     : undefined
@@ -10,7 +10,7 @@ const getMasterRef = async (fetcher) => {
   return masterRef ? masterRef.ref : undefined
 }
 
-const loadIndex = (fetcher) => async () => {
+const loadIndex = (fetcher: typeof fetch) => async () => {
   const ref = await getMasterRef(fetcher)
 
   if (!ref) {
@@ -19,7 +19,7 @@ const loadIndex = (fetcher) => async () => {
 
   const url = `${PRISMIC_URL}/documents/search?ref=${ref}`
   const response = await fetcher(url)
-  const responseData = await response.json()
+  const responseData: PrismicSearchResponse = await response.json()
 
   const index = responseData.results.map((result) => ({
     title: result.data.title[0].text,
@@ -29,7 +29,7 @@ const loadIndex = (fetcher) => async () => {
   return Promise.resolve(index)
 }
 
-const loadPost = (fetcher) => async (slug) => {
+const loadPost = (fetcher: typeof fetch) => async (slug: string) => {
   const ref = await getMasterRef(fetcher)
 
   if (!ref) {
@@ -39,7 +39,7 @@ const loadPost = (fetcher) => async (slug) => {
   const query = encodeURIComponent(`[[at(my.post.uid, "${slug}")]]`)
   const url = `${PRISMIC_URL}/documents/search?ref=${ref}&q=${query}`
   const response = await fetcher(url)
-  const responseData = await response.json()
+  const responseData: PrismicSearchResponse = await response.json()
 
   if (!responseData.results || !responseData.results[0]) {
     throw new Error("Not found")

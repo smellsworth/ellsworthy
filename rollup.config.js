@@ -42,32 +42,33 @@ export default {
       resolve({
         browser: true,
         dedupe: ["svelte"],
+        extensions: [".mjs", ".js", ".json", ".node", ".ts"],
       }),
       commonjs(),
 
-      legacy &&
-        babel({
-          extensions: [".js", ".mjs", ".html", ".svelte"],
-          runtimeHelpers: true,
-          exclude: ["node_modules/@babel/**"],
-          presets: [
-            [
-              "@babel/preset-env",
-              {
-                targets: "> 0.25%, not dead",
-              },
-            ],
+      babel({
+        extensions: [".ts", ".js", ".mjs", ".html", ".svelte"],
+        runtimeHelpers: true,
+        exclude: ["node_modules/@babel/**"],
+        presets: [
+          [
+            "@babel/preset-env",
+            {
+              targets: "> 0.25%, not dead",
+            },
           ],
-          plugins: [
-            "@babel/plugin-syntax-dynamic-import",
-            [
-              "@babel/plugin-transform-runtime",
-              {
-                useESModules: true,
-              },
-            ],
+          "@babel/preset-typescript",
+        ],
+        plugins: [
+          "@babel/plugin-syntax-dynamic-import",
+          [
+            "@babel/plugin-transform-runtime",
+            {
+              useESModules: true,
+            },
           ],
-        }),
+        ],
+      }),
 
       !dev &&
         terser({
@@ -93,8 +94,18 @@ export default {
       }),
       resolve({
         dedupe: ["svelte"],
+        extensions: [".mjs", ".js", ".json", ".node", ".ts"],
       }),
       commonjs(),
+      babel({
+        extensions: [".ts"],
+        runtimeHelpers: true,
+        exclude: ["node_modules/@babel/**"],
+        presets: [
+          "@babel/preset-typescript",
+        ],
+        plugins: [],
+      }),
     ],
     external: Object.keys(pkg.dependencies).concat(
       require("module").builtinModules ||
