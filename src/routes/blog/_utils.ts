@@ -1,3 +1,5 @@
+import { formatPrismicNodes } from '../../utils/nodes'
+
 const PRISMIC_URL = "https://mattellsworth-test.prismic.io"
 
 interface IndexResponse {
@@ -82,7 +84,7 @@ const loadIndex = (fetcher: typeof fetch) => async (): Promise<
 
 const loadArticle = (fetcher: typeof fetch) => async (
   slug: string
-): Promise<{ title: string; content: PrismicNode[] }> => {
+): Promise<{ title: string; content: UiNode[] }> => {
   const query = `
   {
     article(uid: "${slug}", lang: "en-us") {
@@ -96,7 +98,7 @@ const loadArticle = (fetcher: typeof fetch) => async (
 
   return {
     title: response.data.article.title[0].text,
-    content: response.data.article.content,
+    content: formatPrismicNodes(response.data.article.content),
   }
 }
 
