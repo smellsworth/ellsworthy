@@ -1,11 +1,11 @@
 <script context="module">
-  import { loadPost } from "./_utils"
+  import { loadArticle } from "./_utils"
 
   export async function preload({ params, query }) {
     try {
       // the `slug` parameter is available because
       // this file is called [slug].svelte
-      const post = await loadPost(this.fetch)(params.slug)
+      const post = await loadArticle(this.fetch)(params.slug)
       return { post }
     } catch (e) {
       if (e.message === "Not found") {
@@ -63,6 +63,4 @@
 
 <h1>{post.title}</h1>
 
-<div class="content">
-  {@html post.html}
-</div>
+<div class="content">{post.content[0].text}</div>

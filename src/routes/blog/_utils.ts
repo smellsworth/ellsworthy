@@ -1,7 +1,51 @@
-const PRISMIC_URL = "https://mattellsworth-test.prismic.io/api/v2"
+const PRISMIC_URL = "https://mattellsworth-test.prismic.io"
+
+interface IndexResponse {
+  data: {
+    allArticles: {
+      edges: {
+        node: {
+          title: PrismicTextNode[]
+          _meta: {
+            uid: string
+          }
+        }
+      }[]
+    }
+  }
+}
+
+interface ArticleResponse {
+  data: {
+    article: {
+      title: PrismicTextNode[]
+      content: PrismicNode[]
+    }
+  }
+}
+
+const graphQlQuery = <T = any>(fetcher: typeof fetch) => async (
+  query: string
+): Promise<T> => {
+  const ref = await getMasterRef(fetcher)
+
+  if (!ref) {
+    throw new Error("Master ref not found")
+  }
+
+  const urlQuery = encodeURIComponent(query)
+  const headers = {
+    "Prismic-ref": ref,
+  }
+
+  const url = `${PRISMIC_URL}/graphql?query=${urlQuery}`
+  const response = await fetcher(url, { headers })
+
+  return response.json()
+}
 
 const getMasterRef = async (fetcher: typeof fetch) => {
-  const response = await fetcher(PRISMIC_URL)
+  const response = await fetcher(`${PRISMIC_URL}/api/v2`)
   const data: PrismicApiInfo = await response.json()
   const masterRef = data.refs
     ? data.refs.find(({ isMasterRef }) => isMasterRef)
@@ -10,49 +54,50 @@ const getMasterRef = async (fetcher: typeof fetch) => {
   return masterRef ? masterRef.ref : undefined
 }
 
-const loadIndex = (fetcher: typeof fetch) => async () => {
-  const ref = await getMasterRef(fetcher)
-
-  if (!ref) {
-    throw new Error("Master ref not found")
+const loadIndex = (fetcher: typeof fetch) => async (): Promise<
+  { title: string; slug: string }[]
+> => {
+  const query = `
+  {
+    allArticles(sortBy: meta_lastPublicationDate_DESC) {
+      edges {
+        node {
+          title
+          _meta {
+            uid
+          }
+        }
+      }
+    }
   }
+  `
 
-  const url = `${PRISMIC_URL}/documents/search?ref=${ref}`
-  const response = await fetcher(url)
-  const responseData: PrismicSearchResponse = await response.json()
+  const response = await graphQlQuery<IndexResponse>(fetcher)(query)
 
-  const index = responseData.results.map((result) => ({
-    title: result.data.title[0].text,
-    slug: result.slugs[0],
+  return response.data.allArticles.edges.map((edge) => ({
+    title: edge.node.title[0].text,
+    slug: edge.node._meta.uid,
   }))
-
-  return Promise.resolve(index)
 }
 
-const loadPost = (fetcher: typeof fetch) => async (slug: string) => {
-  const ref = await getMasterRef(fetcher)
-
-  if (!ref) {
-    throw new Error("Master ref not found")
+const loadArticle = (fetcher: typeof fetch) => async (
+  slug: string
+): Promise<{ title: string; content: PrismicNode[] }> => {
+  const query = `
+  {
+    article(uid: "${slug}", lang: "en-us") {
+      title
+      content
+    }
   }
+  `
 
-  const query = encodeURIComponent(`[[at(my.post.uid, "${slug}")]]`)
-  const url = `${PRISMIC_URL}/documents/search?ref=${ref}&q=${query}`
-  const response = await fetcher(url)
-  const responseData: PrismicSearchResponse = await response.json()
+  const response = await graphQlQuery<ArticleResponse>(fetcher)(query)
 
-  if (!responseData.results || !responseData.results[0]) {
-    throw new Error("Not found")
+  return {
+    title: response.data.article.title[0].text,
+    content: response.data.article.content,
   }
-  const result = responseData.results[0]
-
-  const post = {
-    title: result.data.title[0].text,
-    slug: result.slugs[0],
-    html: result.data.description[0].text,
-  }
-
-  return Promise.resolve(post)
 }
 
-export { loadIndex, loadPost }
+export { loadIndex, loadArticle }

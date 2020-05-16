@@ -172,3 +172,5 @@ interface PrismicEmbedNode {
     html: string
   }
 }
+
+type PrismicNode = PrismicTextNode | PrismicImageNode | PrismicEmbedNode
