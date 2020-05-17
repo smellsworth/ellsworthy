@@ -5,7 +5,7 @@
 <style>
   .container {
     margin: 24px 0;
-    padding: 8px 4px;
+    padding: 4px 8px;
     border: 1px solid #888;
   }
 </style>
