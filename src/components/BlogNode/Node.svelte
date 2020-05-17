@@ -2,6 +2,8 @@
   import Heading from "./Heading.svelte"
   import Paragraph from "./Paragraph.svelte"
   import List from "./List.svelte"
+  import Image from "./Image.svelte"
+  import Embed from "./Embed.svelte"
 
   export let node
 </script>
@@ -12,4 +14,8 @@
   <Paragraph {node} />
 {:else if node.type === 'list'}
   <List {node} />
+{:else if node.type === 'image'}
+  <Image {node} />
+{:else if node.type === 'embed'}
+  <Embed {node} />
 {/if}
