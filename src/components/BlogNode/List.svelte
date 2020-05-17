@@ -1,4 +1,6 @@
 <script>
+  import Text from "./Text.svelte"
+
   export let node
 </script>
 
@@ -11,7 +13,9 @@
 {:else}
   <ul>
     {#each node.items as item}
-      <li>{item.value}</li>
+      <li>
+        <Text node="{item}" />
+      </li>
     {/each}
   </ul>
 {/if}

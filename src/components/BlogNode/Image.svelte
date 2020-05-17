@@ -3,15 +3,10 @@
 </script>
 
 <style>
-  .image {
+  img {
     display: block;
     margin: 24px 0;
   }
 </style>
 
-<img
-  class="image"
-  style="max-width: {node.width}px"
-  src="{node.url}"
-  alt="{node.alt}"
-/>
+<img style="max-width: {node.width}px" src="{node.url}" alt="{node.alt}" />

@@ -1,31 +1,43 @@
 <script>
-  import InlineNodes from "./InlineNodes.svelte"
+  import Text from "./Text.svelte"
 
   export let node
 </script>
 
 {#if node.depth === 1}
   <h1>
-    <InlineNodes nodes="{node.children}" />
+    {#each node.children as child}
+      <Text node="{child}" />
+    {/each}
   </h1>
 {:else if node.depth === 2}
   <h2>
-    <InlineNodes nodes="{node.children}" />
+    {#each node.children as child}
+      <Text node="{child}" />
+    {/each}
   </h2>
 {:else if node.depth === 3}
   <h3>
-    <InlineNodes nodes="{node.children}" />
+    {#each node.children as child}
+      <Text node="{child}" />
+    {/each}
   </h3>
 {:else if node.depth === 4}
   <h4>
-    <InlineNodes nodes="{node.children}" />
+    {#each node.children as child}
+      <Text node="{child}" />
+    {/each}
   </h4>
 {:else if node.depth === 5}
   <h5>
-    <InlineNodes nodes="{node.children}" />
+    {#each node.children as child}
+      <Text node="{child}" />
+    {/each}
   </h5>
 {:else}
   <h6>
-    <InlineNodes nodes="{node.children}" />
+    {#each node.children as child}
+      <Text node="{child}" />
+    {/each}
   </h6>
 {/if}
