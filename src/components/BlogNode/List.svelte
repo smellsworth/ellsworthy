@@ -7,14 +7,20 @@
 {#if node.ordered}
   <ol>
     {#each node.items as item}
-      <li>{item.value}</li>
+      <li>
+        {#each item as child}
+          <Text node="{child}" />
+        {/each}
+      </li>
     {/each}
   </ol>
 {:else}
   <ul>
     {#each node.items as item}
       <li>
-        <Text node="{item}" />
+        {#each item as child}
+          <Text node="{child}" />
+        {/each}
       </li>
     {/each}
   </ul>

@@ -30,7 +30,7 @@ interface HeadingNode {
 interface ListNode {
   type: "list"
   ordered: boolean
-  items: InlineNode[]
+  items: InlineNode[][]
 }
 
 interface PreformattedNode {
