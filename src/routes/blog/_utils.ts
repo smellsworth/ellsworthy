@@ -1,7 +1,6 @@
 import { formatPrismicNodes } from "../../utils/nodes"
 
 const PRISMIC_URL = "https://mattellsworth-test.prismic.io"
-const FIREBASE_URL = "https://blog-test-5b3c1.firebaseio.com"
 
 interface IndexResponse {
   data: {
@@ -85,7 +84,7 @@ const loadIndex = (fetcher: typeof fetch) => async (): Promise<
 
 const loadArticle = (fetcher: typeof fetch) => async (
   slug: string
-): Promise<{ slug: string, title: string; content: UiNode[] }> => {
+): Promise<{ slug: string; title: string; content: UiNode[] }> => {
   const query = `
   {
     article(uid: "${slug}", lang: "en-us") {
@@ -104,26 +103,15 @@ const loadArticle = (fetcher: typeof fetch) => async (
   }
 }
 
-const getKudos = (fetcher: typeof fetch) => async (
-  slug: string
-): Promise<number> => {
-  const url = `${FIREBASE_URL}/kudos_count/${slug}.json`
-  const response = await fetcher(url)
-  const value = await response.json()
-
-  if (typeof value !== "number") {
-    return 0
-  }
-
-  return value
-}
-
 const loadKudos = (fetcher: typeof fetch) => async (
   slug: string
 ): Promise<number> => {
   try {
-    return getKudos(fetcher)(slug)
+    const url = `/blog/kudos/${slug}.json`
+    const response = await fetcher(url)
+    return await response.json()
   } catch (e) {
+    console.error(e)
     return 0
   }
 }
@@ -132,11 +120,8 @@ const sendKudos = (fetcher: typeof fetch) => async (
   slug: string
 ): Promise<void> => {
   try {
-    const nbKudos = await getKudos(fetcher)(slug)
-    const newValue = nbKudos + 1
-
-    const url = `${FIREBASE_URL}/kudos_count/${slug}.json`
-    fetch(url, { method: 'PUT', body: newValue.toString() })
+    const url = `/blog/kudos/${slug}.json`
+    await fetcher(url, { method: "POST" })
   } catch (e) {
     console.error(e)
   }
