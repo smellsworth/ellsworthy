@@ -46,7 +46,6 @@ describe("decomposePrismicTextNode", () => {
       },
     ]
     const output = decomposePrismicTextNode(input)
-    console.log(output)
 
     expect(output).toEqual(expected)
   })

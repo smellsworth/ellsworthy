@@ -1,4 +1,4 @@
-import { Request, Response } from 'polka'
+import { Request, Response } from "polka"
 import { readValue, setValue } from "../../../server-utils/firebase"
 
 export async function get(req: Request, res: Response) {
@@ -11,7 +11,7 @@ export async function get(req: Request, res: Response) {
   } catch (error) {
     console.error(error)
     // we ignore errors because this feature is just a nice to have
-    res.end(0)
+    res.end("0")
   }
 }
 

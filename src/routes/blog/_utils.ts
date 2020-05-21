@@ -1,106 +1,29 @@
-import { formatPrismicNodes } from "../../utils/nodes"
-
-const PRISMIC_URL = "https://mattellsworth-test.prismic.io"
-
-interface IndexResponse {
-  data: {
-    allArticles: {
-      edges: {
-        node: {
-          title: PrismicTextNode[]
-          _meta: {
-            uid: string
-          }
-        }
-      }[]
-    }
-  }
-}
-
-interface ArticleResponse {
-  data: {
-    article: {
-      title: PrismicTextNode[]
-      content: PrismicNode[]
-    }
-  }
-}
-
-const graphQlQuery = <T = any>(fetcher: typeof fetch) => async (
-  query: string
-): Promise<T> => {
-  const ref = await getMasterRef(fetcher)
-
-  if (!ref) {
-    throw new Error("Master ref not found")
-  }
-
-  const urlQuery = encodeURIComponent(query)
-  const headers = {
-    "Prismic-ref": ref,
-  }
-
-  const url = `${PRISMIC_URL}/graphql?query=${urlQuery}`
-  const response = await fetcher(url, { headers })
-
-  return response.json()
-}
-
-const getMasterRef = async (fetcher: typeof fetch) => {
-  const response = await fetcher(`${PRISMIC_URL}/api/v2`)
-  const data: PrismicApiInfo = await response.json()
-  const masterRef = data.refs
-    ? data.refs.find(({ isMasterRef }) => isMasterRef)
-    : undefined
-
-  return masterRef ? masterRef.ref : undefined
-}
-
 const loadIndex = (fetcher: typeof fetch) => async (): Promise<
-  { title: string; slug: string }[]
+  BlogArticleIndexInfo[]
 > => {
-  const query = `
-  {
-    allArticles(sortBy: meta_lastPublicationDate_DESC) {
-      edges {
-        node {
-          title
-          _meta {
-            uid
-          }
-        }
-      }
-    }
+  const url = "/blog.json"
+  const response = await fetcher(url)
+
+  if (!response.ok) {
+    throw new Error("Can't load blog index")
   }
-  `
 
-  const response = await graphQlQuery<IndexResponse>(fetcher)(query)
+  const data = await response.json()
 
-  return response.data.allArticles.edges.map((edge) => ({
-    title: edge.node.title[0].text,
-    slug: edge.node._meta.uid,
-  }))
+  return data
 }
 
 const loadArticle = (fetcher: typeof fetch) => async (
   slug: string
-): Promise<{ slug: string; title: string; content: UiNode[] }> => {
-  const query = `
-  {
-    article(uid: "${slug}", lang: "en-us") {
-      title
-      content
-    }
-  }
-  `
+): Promise<BlogArticle> => {
+  const url = `/blog/${slug}.json`
+  const response = await fetcher(url)
 
-  const response = await graphQlQuery<ArticleResponse>(fetcher)(query)
-
-  return {
-    slug,
-    title: response.data.article.title[0].text,
-    content: formatPrismicNodes(response.data.article.content),
+  if (!response.ok) {
+    throw new Error(`Can't load article 'slug'`)
   }
+
+  return await response.json()
 }
 
 const loadKudos = (fetcher: typeof fetch) => async (
