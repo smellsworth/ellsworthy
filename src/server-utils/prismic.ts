@@ -1,6 +1,8 @@
 import { get } from "httpie"
+import dotenv from "dotenv"
+dotenv.config({ path: '.env.local' })
 
-const PRISMIC_URL = "https://mattellsworth-test.prismic.io"
+const PRISMIC_URL = process.env.PRISMIC_URL
 
 async function getMasterRef(): Promise<string | undefined> {
   const response = await get<PrismicApiInfo>(`${PRISMIC_URL}/api/v2`)
