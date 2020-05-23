@@ -9,7 +9,7 @@
   async function subscribeNewsLetter() {
     try {
       subscriptionStatus = "LOADING"
-      const response = await fetch(`/email.json?email=${email}`, {
+      const response = await fetch(`api/email/post?email=${email}`, {
         method: "POST",
       })
       if (response.ok) {
