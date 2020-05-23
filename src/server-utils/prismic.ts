@@ -1,6 +1,6 @@
 import { get } from "httpie"
 import dotenv from "dotenv"
-dotenv.config({ path: '.env.local' })
+dotenv.config({ path: '.env' })
 
 const PRISMIC_URL = process.env.PRISMIC_URL
 

@@ -1,11 +1,13 @@
-import { Request, Response } from "polka"
+import { NowRequest, NowResponse } from '@now/node'
 import isEmail from "validator/lib/isEmail"
-import { pushValue } from "../server-utils/firebase"
+import { pushValue } from "../_firebase"
 
-export async function post(req: Request, res: Response) {
+export default async (req: NowRequest, res: NowResponse) => {
+  res.setHeader('content-type', 'application/json')
   try {
     const path = `/emails`
-    const email: string | undefined = req.query?.email
+    const query = req.query.email || ''
+    const email = Array.isArray(query) ? query.join() : query
 
     if (email && isEmail(email)) {
       await pushValue(path, email)

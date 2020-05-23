@@ -1,6 +1,6 @@
 import admin from "firebase-admin"
 import dotenv from "dotenv"
-dotenv.config({ path: '.env.local' })
+dotenv.config({ path: '.env' })
 
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT!)
 serviceAccount.private_key = process.env.FIREBASE_PRIVATE_KEY,
