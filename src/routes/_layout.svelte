@@ -21,6 +21,7 @@
       }
     }
 
+    margin: 0;
     background-color: var(--background);
     color: var(--text);
     font-family: "Roboto Mono", monospace;
