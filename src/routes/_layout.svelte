@@ -11,10 +11,20 @@
     @include lightTheme;
     @media (prefers-color-scheme: dark) {
       @include darkTheme;
+
+      :global(img) {
+        opacity: 0.75;
+        transition: opacity 500ms;
+        &:hover {
+          opacity: 1;
+        }
+      }
     }
 
     background-color: var(--background);
     color: var(--text);
+    font-family: "Roboto Mono", monospace;
+    font-size: 14px;
   }
 </style>
 
