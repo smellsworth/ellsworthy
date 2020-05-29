@@ -8,16 +8,13 @@
   @import "app-colors";
 
   :global(body) {
-    background-color: $background-light;
-    color: $text-light;
-  }
+    @include lightTheme;
+    @media (prefers-color-scheme: dark) {
+      @include darkTheme;
+    }
 
-  main {
-    position: relative;
-    max-width: 56em;
-    padding: 2em;
-    margin: 0 auto;
-    box-sizing: border-box;
+    background-color: var(--background);
+    color: var(--text);
   }
 </style>
 

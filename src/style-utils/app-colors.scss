@@ -1,5 +1,35 @@
 $background-light: #f2f2f2;
-$background-dark: #182036;
+$background-dark: #262626;
 
-$text-light: #303030;
+$text-light: #333333;
 $text-dark: #ffffff;
+
+$link_background-light: #ffd1b8;
+$link_background-dark: #b3521e;
+
+$border_color-light: #dfdfdf;
+$border_color-dark: #4d4d4d;
+
+$cta_background-light: #3498db;
+$cta_background-dark: #3498db;
+
+$cta_color-light: #ffffff;
+$cta_color-dark: #ffffff;
+
+@mixin lightTheme {
+  --background: #{$background_light};
+  --text: #{$text_light};
+  --link_background: #{$link_background_light};
+  --border_color: #{$border_color_light};
+  --cta_background: #{$cta_background_light};
+  --cta_color: #{$cta_color_light};
+}
+
+@mixin darkTheme {
+  --background: #{$background_dark};
+  --text: #{$text_dark};
+  --link_background: #{$link_background_dark};
+  --border_color: #{$border_color_dark};
+  --cta_background: #{$cta_background_dark};
+  --cta_color: #{$cta_color_dark};
+}
