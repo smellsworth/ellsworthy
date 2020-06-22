@@ -27,6 +27,12 @@
     font-family: "Roboto Mono", monospace;
     font-size: 14px;
   }
+
+  main {
+    max-width: 700px;
+    padding: 0 12px;
+    margin: auto;
+  }
 </style>
 
 <Nav {segment} />
