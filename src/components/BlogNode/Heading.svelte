@@ -4,6 +4,50 @@
   export let node
 </script>
 
+<style>
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 32px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border_color);
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin-bottom: 12px;
+    font-size: 20px;
+  }
+
+  h2 {
+    margin-bottom: 12px;
+    font-size: 17px;
+  }
+
+  h3 {
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+
+  h4 {
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  h5 {
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+
+  h6 {
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+</style>
+
 {#if node.depth === 1}
   <h1>
     {#each node.children as child}

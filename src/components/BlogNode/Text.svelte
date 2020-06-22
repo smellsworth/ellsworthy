@@ -2,6 +2,21 @@
   export let node
 </script>
 
+<style lang="scss">
+  a {
+    padding: 2px 5px;
+    border-radius: 3px;
+    text-decoration: none;
+    background-color: var(--link_background);
+    color: inherit;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+</style>
+
 {#if node.type === 'text'}
   <span>{node.value}</span>
 {:else if node.type === 'strong'}

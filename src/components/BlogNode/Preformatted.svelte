@@ -4,9 +4,11 @@
 
 <style>
   pre {
-    margin: 24px 0;
+    margin: 12px 0;
     padding: 4px 8px;
-    background-color: #ddd;
+    line-height: 20px;
+    background-color: var(--border_color);
+    border-radius: 3px;
   }
 </style>
 
