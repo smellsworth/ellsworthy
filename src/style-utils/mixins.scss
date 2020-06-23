@@ -1,0 +1,12 @@
+@mixin linkRules {
+  padding: 2px 5px;
+  border-radius: 3px;
+  text-decoration: none;
+  background-color: var(--link_background);
+  color: inherit;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}

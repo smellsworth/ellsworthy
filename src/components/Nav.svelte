@@ -24,15 +24,12 @@
       height: 1px;
       background-color: var(--border_color);
       opacity: 0;
-      transform: scaleX(0.95);
-      transition: 200ms;
     }
   }
 
   .content_border {
     &::after {
       opacity: 1;
-      transform: scaleX(1);
     }
   }
 

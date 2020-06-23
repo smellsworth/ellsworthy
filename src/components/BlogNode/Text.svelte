@@ -3,17 +3,10 @@
 </script>
 
 <style lang="scss">
-  a {
-    padding: 2px 5px;
-    border-radius: 3px;
-    text-decoration: none;
-    background-color: var(--link_background);
-    color: inherit;
+  @import "mixins";
 
-    &:hover,
-    &:focus {
-      text-decoration: underline;
-    }
+  a {
+    @include linkRules;
   }
 </style>
 
