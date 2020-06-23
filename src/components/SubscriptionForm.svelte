@@ -51,6 +51,7 @@
     background: none;
     outline: none;
     font: inherit;
+    color: inherit;
     transition: 200ms;
 
     &:focus {
@@ -72,6 +73,7 @@
 
     &:disabled {
       background: var(--border_color);
+      cursor: default;
     }
 
     &:focus {
