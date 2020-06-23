@@ -1,5 +1,6 @@
 <script>
   import About from "../components/About.svelte"
+  import SubscriptionForm from "../components/SubscriptionForm.svelte"
 </script>
 
 <svelte:head>
@@ -7,3 +8,5 @@
 </svelte:head>
 
 <About />
+
+<SubscriptionForm />
