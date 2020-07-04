@@ -28,9 +28,15 @@
   a {
     color: inherit;
     text-decoration: none;
+    transition: 200ms;
 
     &:hover {
       text-decoration: underline;
+    }
+
+    &:focus {
+      text-decoration: underline;
+      color: var(--cta_background);
     }
   }
 </style>

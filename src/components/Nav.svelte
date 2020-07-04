@@ -34,10 +34,44 @@
   }
 
   .title {
-    flex: 1;
+    position: relative;
     font-size: 36px;
     text-decoration: none;
     color: var(--text);
+    transition: 200ms;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 1px;
+      background-color: var(--text);
+      opacity: 0;
+      transform: scaleX(0.95);
+      transition: 200ms;
+    }
+
+    &:focus {
+      color: var(--cta_background);
+      &::after {
+        background-color: var(--cta_background);
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    &:hover {
+      &::after {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  .empty-space {
+    flex: 1;
   }
 
   ul {
@@ -52,6 +86,7 @@
     text-decoration: none;
     font-size: 16px;
     color: var(--text);
+    transition: 200ms;
 
     &::after {
       content: "";
@@ -64,6 +99,22 @@
       opacity: 0;
       transform: scaleX(0.95);
       transition: 200ms;
+    }
+
+    &:focus {
+      color: var(--cta_background);
+      &::after {
+        background-color: var(--cta_background);
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+
+    &:hover {
+      &::after {
+        opacity: 1;
+        transform: scaleX(1);
+      }
     }
   }
 
@@ -80,6 +131,7 @@
 <nav>
   <div class="content" class:content_border="{!!segment}">
     <a class="title" href="/">Ellsworthy</a>
+    <span class="empty-space"></span>
     <ul>
       <li>
         <a
