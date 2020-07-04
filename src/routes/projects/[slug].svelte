@@ -1,13 +1,11 @@
 <script context="module">
-  import Node from "../../components/BlogNode/Node.svelte"
-  import BlogKudos from "../../components/BlogKudos/BlogKudos.svelte"
-  import { loadArticle } from "./_utils"
+  import { get } from "../../utils/http"
 
-  export async function preload({ params, query }) {
+  export async function preload({ params }) {
     try {
       // the `slug` parameter is available because
       // this file is called [slug].svelte
-      const post = await loadArticle(this.fetch)(params.slug)
+      const post = await get(this.fetch)(`/projects/${params.slug}.json`)
 
       return { post }
     } catch (e) {
@@ -21,6 +19,9 @@
 </script>
 
 <script>
+  import Node from "../../components/BlogNode/Node.svelte"
+  import BlogKudos from "../../components/BlogKudos/BlogKudos.svelte"
+
   export let post
 </script>
 

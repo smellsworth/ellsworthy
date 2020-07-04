@@ -1,9 +1,9 @@
 <script context="module">
-  import { loadIndex } from "./_utils"
+  import { get } from "../../utils/http"
 
-  export async function preload({ params, query }) {
+  export async function preload() {
     try {
-      const posts = await loadIndex(this.fetch)()
+      const posts = await get(this.fetch)("/blog.json")
 
       return { posts }
     } catch (e) {

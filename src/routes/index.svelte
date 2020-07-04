@@ -1,9 +1,9 @@
 <script context="module">
-  import { loadIndex } from "./_utils"
+  import { get } from "../utils/http"
 
   export async function preload({ params, query }) {
     try {
-      const { essays, projects } = await loadIndex(this.fetch)()
+      const { essays, projects } = await get(this.fetch)("/index.json")
 
       return { essays, projects }
     } catch (e) {
