@@ -1,4 +1,4 @@
-import { decomposePrismicTextNode } from "../utils/nodes"
+import { decomposePrismicTextNode } from "../server-utils/nodes"
 
 describe("decomposePrismicTextNode", () => {
   test("returns an empty array", () => {

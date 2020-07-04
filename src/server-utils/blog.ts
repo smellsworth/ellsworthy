@@ -5,7 +5,7 @@ import {
   getIndexCache,
   getArticleCache,
 } from "./cache"
-import { formatPrismicNodes } from "../utils/nodes"
+import { formatPrismicNodes } from "./nodes"
 
 interface IndexResponse {
   data: {
@@ -82,7 +82,7 @@ async function loadArticle(
   const article = {
     slug,
     title: response.data.article.title[0].text,
-    content: formatPrismicNodes(response.data.article.content),
+    content: await formatPrismicNodes(response.data.article.content),
   }
 
   setArticleCache(type, article)

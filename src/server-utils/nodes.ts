@@ -1,3 +1,5 @@
+import { get } from "httpie"
+
 function assertNever(value: never) {
   console.error(`${value} is invalid`)
 }
@@ -59,7 +61,6 @@ function getPrismicTextNodes(
       spans.unshift(spansSplitted.shift() as PrismicSpan)
     }
 
-
     const children = getPrismicTextNodes(spanText, spansIn)
 
     switch (span.type) {
@@ -108,7 +109,41 @@ function decomposePrismicTextNode(node: PrismicTextNode): InlineNode[] {
   return getPrismicTextNodes(node.text, spans)
 }
 
-function formatPrismicNodes(_nodes: PrismicNode[]): UiNode[] {
+async function formatEmbedNode(node: PrismicEmbedNode): Promise<EmbedNode> {
+  // for the moment Prismic doesn't provide well tiktok embed
+  if (node.oembed.embed_url.includes("tiktok")) {
+    const response = await get(
+      `https://www.tiktok.com/oembed?url=${node.oembed.embed_url}`
+    )
+
+    if (response.statusCode && response.statusCode < 400) {
+      const { data } = response
+      return {
+        type: "embed",
+        provider: data.provider_name,
+        title: data.title,
+        url: node.oembed.embed_url,
+        html: data.html,
+        thumbnail_url: data.thumbnail_url,
+        thumbnail_width: data.thumbnail_width,
+        thumbnail_height: data.thumbnail_height,
+      }
+    }
+  }
+
+  return {
+    type: "embed",
+    provider: node.oembed.provider_name,
+    title: node.oembed.title,
+    url: node.oembed.embed_url,
+    html: node.oembed.html,
+    thumbnail_url: node.oembed.thumbnail_url,
+    thumbnail_width: node.oembed.thumbnail_width,
+    thumbnail_height: node.oembed.thumbnail_height,
+  }
+}
+
+async function formatPrismicNodes(_nodes: PrismicNode[]): Promise<UiNode[]> {
   const nodes = [..._nodes]
   const uiNodes: UiNode[] = []
 
@@ -210,16 +245,8 @@ function formatPrismicNodes(_nodes: PrismicNode[]): UiNode[] {
         })
         break
       case "embed":
-        uiNodes.push({
-          type: "embed",
-          provider: node.oembed.provider_name,
-          title: node.oembed.title,
-          url: node.oembed.embed_url,
-          html: node.oembed.html,
-          thumbnail_url: node.oembed.thumbnail_url,
-          thumbnail_width: node.oembed.thumbnail_width,
-          thumbnail_height: node.oembed.thumbnail_height,
-        })
+        const formatted = await formatEmbedNode(node)
+        uiNodes.push(formatted)
         break
       default:
         assertNever(node)

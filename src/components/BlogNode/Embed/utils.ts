@@ -27,11 +27,11 @@ function extractScript(html: string): { html: string; scriptSrc: string } {
   const scriptIndex = html.indexOf("<script")
   const htmlWithoutScript = html.substr(0, scriptIndex)
   const script = html.substr(scriptIndex)
-  const parts = script.split(" ")
-  const srcPart = parts.find((part) => part.indexOf("src") === 0)
+  const srcMatches = script.match(/src="[\da-zA-Z:\/\.]+"/)
 
-  if (srcPart) {
-    const scriptSrc = srcPart.substr(5, srcPart.length - 6)
+  if (srcMatches) {
+    const srcAttr = srcMatches[0]
+    const scriptSrc = srcAttr.substr(5, srcAttr.length - 6)
 
     return {
       html: htmlWithoutScript,
