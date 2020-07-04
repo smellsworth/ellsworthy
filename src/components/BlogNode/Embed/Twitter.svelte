@@ -6,6 +6,10 @@
 
   let container
 
+  /**
+   * use custom integration because {@html embed_content} doesn't work with twitter
+   * this custom integration make dark mode integration easier (without this integration we'll need to change meta tags in head)
+   */
   onMount(() => {
     // we don't use `<script context="module">` because loading twitter script makea glitch on screen
     // so when we prefetch the script from index page, it make the page blink

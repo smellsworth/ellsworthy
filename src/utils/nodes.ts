@@ -215,6 +215,7 @@ function formatPrismicNodes(_nodes: PrismicNode[]): UiNode[] {
           provider: node.oembed.provider_name,
           title: node.oembed.title,
           url: node.oembed.embed_url,
+          html: node.oembed.html,
           thumbnail_url: node.oembed.thumbnail_url,
           thumbnail_width: node.oembed.thumbnail_width,
           thumbnail_height: node.oembed.thumbnail_height,

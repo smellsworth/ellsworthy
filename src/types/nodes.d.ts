@@ -56,6 +56,7 @@ interface EmbedNode {
   url: string
   title: string
   provider: string
+  html: string | null
   thumbnail_url: string | null
   thumbnail_width?: number
   thumbnail_height?: number
