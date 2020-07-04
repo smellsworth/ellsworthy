@@ -4,7 +4,7 @@
   import List from "./List.svelte"
   import Preformatted from "./Preformatted.svelte"
   import Image from "./Image.svelte"
-  import Embed from "./Embed.svelte"
+  import Embed from "./Embed/Embed.svelte"
 
   export let node
 </script>

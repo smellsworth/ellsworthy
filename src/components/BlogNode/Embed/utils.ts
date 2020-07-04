@@ -1,46 +1,47 @@
-const SCRIPT_ID = "twitter-wjs"
-const SCRIPT_URL = "https://platform.twitter.com/widgets.js"
+const loadedScripts: string[] = []
 
-let initialized = false
+function getTheme(): "light" | "dark" {
+  const darkMode =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  return darkMode ? "dark" : "light"
+}
 
-function initTwitter(): void {
-  if ((process as any).browser && !initialized) {
-    const js = document.createElement("script")
-    js.id = SCRIPT_ID
-    js.src = SCRIPT_URL
-    document.body.appendChild(js)
+/**
+ * For an unknown reason, script in embed html is executed too early
+ * To resolve this we remove script from embed html and get script src
+ * to append the script in body after component is mounted
+ * @param html embed html string
+ */
+function extractScript(html: string): { html: string; scriptSrc: string } {
+  const scriptIndex = html.indexOf("<script")
+  const htmlWithoutScript = html.substr(0, scriptIndex)
+  const script = html.substr(scriptIndex)
+  const parts = script.split(" ")
+  const srcPart = parts.find((part) => part.indexOf("src") === 0)
 
-    const t: any = {}
-    t._e = []
-    t.ready = function (f: any) {
-      t._e.push(f)
+  if (srcPart) {
+    const scriptSrc = srcPart.substr(5, srcPart.length - 6)
+
+    return {
+      html: htmlWithoutScript,
+      scriptSrc,
     }
+  }
 
-    ;(window as any).twttr = t
-    initialized = true
+  return {
+    html: html,
+    scriptSrc: "",
   }
 }
 
-function getTweetId(url: string): string {
-  const split = url.split('/')
-  return split[split.length - 1]
-}
-
-function displayTweet(element: HTMLDivElement, node: EmbedNode): number {
-  const widgets: any = (window as any).twttr.widgets
-  if (!widgets) {
-    return window.setTimeout(() => {
-      displayTweet(element, node)
-    }, 200)
+function insertScript(src: string): void {
+  if (loadedScripts.indexOf(src) < 0) {
+    const script = document.createElement('script')
+    script.src = src
+    document.body.appendChild(script)
+    loadedScripts.push(src)
   }
-
-  const id = getTweetId(node.url);
-  const darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = darkMode ? 'dark' : 'light';
-
-  widgets.createTweet(id, element, { theme, align: 'center' })
-
-  return 0
 }
 
-export { initTwitter, displayTweet }
+export { extractScript, insertScript }
