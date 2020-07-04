@@ -1,3 +1,5 @@
+type ArticleType = 'essay' | 'project'
+
 interface BlogArticleIndexInfo {
   title: string
   slug: string

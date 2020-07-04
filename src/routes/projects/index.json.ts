@@ -1,10 +1,10 @@
 import { Request, Response } from "polka"
-import { loadEssay } from "../../server-utils/blog"
+import { loadProjectIndex } from "../../server-utils/blog"
 
 export async function get(req: Request, res: Response) {
   try {
-    const article = await loadEssay(req.params.slug)
-    res.end(JSON.stringify(article))
+    const index = await loadProjectIndex()
+    res.end(JSON.stringify(index))
   } catch (error) {
     console.error(error)
     res.writeHead(500)

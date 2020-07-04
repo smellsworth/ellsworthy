@@ -1,25 +1,37 @@
-let index: BlogArticleIndexInfo[] | undefined = undefined
-let articles: { [key: string]: BlogArticle } = {}
-
-function setIndexCache(value: BlogArticleIndexInfo[]): void {
-  index = value
+let index: { [key in ArticleType]: BlogArticleIndexInfo[] | undefined } = {
+  essay: undefined,
+  project: undefined
+}
+let articles: { [key in ArticleType]: {[key: string]: BlogArticle} } = {
+  essay: {},
+  project: {},
 }
 
-function setArticleCache(article: BlogArticle): void {
-  articles[article.slug] = article
+function setIndexCache(type: ArticleType, value: BlogArticleIndexInfo[]): void {
+  index[type] = value
 }
 
-function getIndexCache(): BlogArticleIndexInfo[] | undefined {
-  return index
+function setArticleCache(type: ArticleType, article: BlogArticle): void {
+  articles[type][article.slug] = article
 }
 
-function getArticleCache(slug: string): BlogArticle | undefined {
-  return articles[slug]
+function getIndexCache(type: ArticleType): BlogArticleIndexInfo[] | undefined {
+  return index[type]
+}
+
+function getArticleCache(type: ArticleType, slug: string): BlogArticle | undefined {
+  return articles[type][slug]
 }
 
 function clearCache() {
-  index = undefined
-  articles = {}
+  index = {
+    essay: undefined,
+    project: undefined
+  }
+  articles = {
+    essay: {},
+    project: {},
+  }
 }
 
 export {

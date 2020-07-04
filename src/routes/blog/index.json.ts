@@ -1,9 +1,9 @@
 import { Request, Response } from "polka"
-import { loadIndex } from "../../server-utils/blog"
+import { loadEssayIndex } from "../../server-utils/blog"
 
 export async function get(req: Request, res: Response) {
   try {
-    const index = await loadIndex()
+    const index = await loadEssayIndex()
     res.end(JSON.stringify(index))
   } catch (error) {
     console.error(error)

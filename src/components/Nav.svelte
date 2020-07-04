@@ -95,8 +95,8 @@
         <a
           class="link"
           rel="prefetch"
-          aria-current="{segment === 'projets' ? 'page' : undefined}"
-          href="blog"
+          aria-current="{segment === 'projects' ? 'page' : undefined}"
+          href="projects"
         >
           Projects
         </a>

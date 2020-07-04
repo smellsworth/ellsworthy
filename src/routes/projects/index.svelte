@@ -19,7 +19,7 @@
 </script>
 
 <svelte:head>
-  <title>Essays</title>
+  <title>Projects</title>
 </svelte:head>
 
-<BlogIndex title="Essays" urlPrefix="blog" {posts} />
+<BlogIndex title="Projects" urlPrefix="projects" {posts} />

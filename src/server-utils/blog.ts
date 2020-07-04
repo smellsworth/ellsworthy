@@ -31,8 +31,10 @@ interface ArticleResponse {
   }
 }
 
-async function loadIndex(): Promise<BlogArticleIndexInfo[]> {
-  const cache = getIndexCache()
+async function loadIndex(
+  type: "essay" | "project"
+): Promise<BlogArticleIndexInfo[]> {
+  const cache = getIndexCache(type)
   if (cache) return cache
 
   const query = `
@@ -56,12 +58,15 @@ async function loadIndex(): Promise<BlogArticleIndexInfo[]> {
     slug: edge.node._meta.uid,
   }))
 
-  setIndexCache(index)
+  setIndexCache(type, index)
   return index
 }
 
-async function loadArticle(slug: string): Promise<BlogArticle> {
-  const cache = getArticleCache(slug)
+async function loadArticle(
+  type: "essay" | "project",
+  slug: string
+): Promise<BlogArticle> {
+  const cache = getArticleCache(type, slug)
   if (cache) return cache
 
   const query = `
@@ -80,8 +85,24 @@ async function loadArticle(slug: string): Promise<BlogArticle> {
     content: formatPrismicNodes(response.data.article.content),
   }
 
-  setArticleCache(article)
+  setArticleCache(type, article)
   return article
 }
 
-export { loadIndex, loadArticle }
+async function loadEssayIndex(): Promise<BlogArticleIndexInfo[]> {
+  return loadIndex("essay")
+}
+
+async function loadProjectIndex(): Promise<BlogArticleIndexInfo[]> {
+  return loadIndex("project")
+}
+
+async function loadEssay(slug: string): Promise<BlogArticle> {
+  return loadArticle("essay", slug)
+}
+
+async function loadProject(slug: string): Promise<BlogArticle> {
+  return loadArticle("project", slug)
+}
+
+export { loadEssayIndex, loadProjectIndex, loadEssay, loadProject }

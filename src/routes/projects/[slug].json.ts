@@ -1,9 +1,9 @@
 import { Request, Response } from "polka"
-import { loadEssay } from "../../server-utils/blog"
+import { loadProject } from "../../server-utils/blog"
 
 export async function get(req: Request, res: Response) {
   try {
-    const article = await loadEssay(req.params.slug)
+    const article = await loadProject(req.params.slug)
     res.end(JSON.stringify(article))
   } catch (error) {
     console.error(error)
