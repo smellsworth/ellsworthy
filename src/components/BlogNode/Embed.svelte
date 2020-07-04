@@ -1,4 +1,6 @@
 <script>
+  import Twitter from "./Embed/Twitter.svelte"
+
   export let node
 </script>
 
@@ -10,8 +12,12 @@
   }
 </style>
 
-<div class="container">
-  <div>{node.provider}</div>
-  <div>{node.title}</div>
-  <a href="{node.url}" target="_blank" rel="noopener">{node.url}</a>
-</div>
+{#if node.provider === 'Twitter'}
+  <Twitter {node} />
+{:else}
+  <div class="container">
+    <div>{node.provider}</div>
+    <div>{node.title}</div>
+    <a href="{node.url}" target="_blank" rel="noopener">{node.url}</a>
+  </div>
+{/if}
