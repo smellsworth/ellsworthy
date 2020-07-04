@@ -1,12 +1,13 @@
 <script>
   import { onMount } from "svelte"
-  import { extractScript, insertScript } from "./utils"
+  import { setTheme, extractScript, insertScript } from "./utils"
 
   export let node
 
   const { html, scriptSrc } = extractScript(node.html)
 
   onMount(() => {
+    setTheme()
     insertScript(scriptSrc)
   })
 </script>

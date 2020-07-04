@@ -8,6 +8,16 @@ function getTheme(): "light" | "dark" {
 }
 
 /**
+ * for twitter: update meta element in head define in "template.html"
+ */
+function setTheme() {
+  const theme = getTheme()
+  const twitterTag = document.getElementById('twitter-theme')
+
+  twitterTag?.setAttribute('content', theme)
+}
+
+/**
  * For an unknown reason, script in embed html is executed too early
  * To resolve this we remove script from embed html and get script src
  * to append the script in body after component is mounted
@@ -44,4 +54,4 @@ function insertScript(src: string): void {
   }
 }
 
-export { extractScript, insertScript }
+export { setTheme, extractScript, insertScript }
