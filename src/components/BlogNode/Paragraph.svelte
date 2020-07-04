@@ -1,5 +1,5 @@
 <script>
-  import Text from "./Text.svelte"
+  import TextNodes from "./TextNodes.svelte"
 
   export let node
 </script>
@@ -11,7 +11,5 @@
 </style>
 
 <p>
-  {#each node.children as child}
-    <Text node="{child}" />
-  {/each}
+  <TextNodes nodes="{node.children}" />
 </p>

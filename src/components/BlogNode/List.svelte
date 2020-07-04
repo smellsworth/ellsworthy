@@ -1,5 +1,5 @@
 <script>
-  import Text from "./Text.svelte"
+  import TextNodes from "./TextNodes.svelte"
 
   export let node
 </script>
@@ -25,9 +25,7 @@
   <ol>
     {#each node.items as item}
       <li>
-        {#each item as child}
-          <Text node="{child}" />
-        {/each}
+        <TextNodes nodes="{item}" />
       </li>
     {/each}
   </ol>
@@ -35,9 +33,7 @@
   <ul>
     {#each node.items as item}
       <li>
-        {#each item as child}
-          <Text node="{child}" />
-        {/each}
+        <TextNodes nodes="{item}" />
       </li>
     {/each}
   </ul>
