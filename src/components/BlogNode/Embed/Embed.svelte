@@ -15,6 +15,8 @@
 <style>
   .container {
     margin: 24px 0;
+    display: flex;
+    justify-content: center;
   }
 </style>
 
