@@ -3,8 +3,14 @@
 </script>
 
 <style lang="scss">
+  @import "responsive";
+
   nav {
     padding: 0 12px;
+
+    @include phone {
+      padding: 0 8px;
+    }
   }
 
   .content {
@@ -14,6 +20,10 @@
     max-width: 700px;
     margin: auto;
     padding: 24px 0;
+
+    @include phone {
+      padding: 16px 0;
+    }
 
     &::after {
       content: "";
@@ -39,6 +49,13 @@
     text-decoration: none;
     color: var(--text);
     transition: 200ms;
+
+    @include phone {
+      font-size: 26px;
+    }
+    @include widthLessThan(400px) {
+      font-size: 20px;
+    }
 
     &::after {
       content: "";
@@ -75,6 +92,7 @@
   }
 
   ul {
+    padding-left: 12px;
     display: flex;
     list-style-type: none;
   }
@@ -87,6 +105,11 @@
     font-size: 16px;
     color: var(--text);
     transition: 200ms;
+
+    @include phone {
+      margin-left: 16px;
+      font-size: 14px;
+    }
 
     &::after {
       content: "";

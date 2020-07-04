@@ -5,24 +5,41 @@
 </script>
 
 <style lang="scss">
+  @import "responsive";
+
   h2 {
     margin-top: 48px;
+    margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border_color);
     text-transform: uppercase;
-    margin-bottom: 16px;
     font-size: 17px;
+
+    @include phone {
+      margin-top: 32px;
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
   }
 
   ul {
     margin-bottom: 32px;
     padding: 0 16px;
     list-style-type: "* ";
+
+    @include phone {
+      padding: 0 12px;
+    }
   }
 
   li {
     margin-bottom: 12px;
     font-size: 15px;
+
+    @include phone {
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
   }
 
   a {

@@ -1,0 +1,11 @@
+@mixin widthLessThan($width) {
+  @media only screen and (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin phone {
+  @include widthLessThan(600px) {
+    @content;
+  }
+}

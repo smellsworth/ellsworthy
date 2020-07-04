@@ -4,7 +4,9 @@
   export let node
 </script>
 
-<style>
+<style lang="scss">
+  @import "responsive";
+
   h1,
   h2,
   h3,
@@ -20,31 +22,49 @@
   h1 {
     margin-bottom: 12px;
     font-size: 20px;
+    @include phone {
+      font-size: 18px;
+    }
   }
 
   h2 {
     margin-bottom: 12px;
     font-size: 17px;
+    @include phone {
+      font-size: 15px;
+    }
   }
 
   h3 {
     margin-bottom: 8px;
     font-size: 15px;
+    @include phone {
+      font-size: 13px;
+    }
   }
 
   h4 {
     margin-bottom: 8px;
     font-size: 13px;
+    @include phone {
+      font-size: 11px;
+    }
   }
 
   h5 {
     margin-bottom: 8px;
     font-size: 13px;
+    @include phone {
+      font-size: 11px;
+    }
   }
 
   h6 {
     margin-bottom: 8px;
     font-size: 13px;
+    @include phone {
+      font-size: 11px;
+    }
   }
 </style>
 

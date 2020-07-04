@@ -27,14 +27,20 @@
 
 <style lang="scss">
   @import "mixins";
+  @import "responsive";
 
   .container {
     margin: 24px 0;
     padding: 16px;
     border: 1px solid var(--border_color);
+
+    @include phone {
+      margin: 16px 0;
+      padding: 12px;
+    }
   }
   .sentence {
-    margin: 0 0 16px 0;
+    margin: 0 0 12px 0;
   }
   .field {
     height: 30px;
