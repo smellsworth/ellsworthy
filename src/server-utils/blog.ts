@@ -10,6 +10,10 @@ import { formatPrismicNodes } from "./nodes"
 interface IndexResponse {
   data: {
     allArticles: {
+      pageInfo: {
+        hasNextPage: boolean
+        endCursor: string
+      }
       edges: {
         node: {
           title: PrismicTextNode[]
@@ -31,15 +35,23 @@ interface ArticleResponse {
   }
 }
 
-async function loadIndex(
-  type: "essay" | "project"
+async function loadIndexPages(
+  type: ArticleType,
+  acc: BlogArticleIndexInfo[] = [],
+  startCursor?: string
 ): Promise<BlogArticleIndexInfo[]> {
-  const cache = getIndexCache(type)
-  if (cache) return cache
+  let params = "sortBy: meta_firstPublicationDate_DESC"
+  if (startCursor) {
+    params += `,after: "${startCursor}"`
+  }
 
   const query = `
   {
-    allArticles(sortBy: meta_lastPublicationDate_DESC) {
+    allArticles(${params}) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
       edges {
         node {
           title
@@ -53,17 +65,35 @@ async function loadIndex(
   `
 
   const response = await graphQlQuery<IndexResponse>(query)
-  const index = response.data.allArticles.edges.map((edge) => ({
+  const page = response.data.allArticles.edges.map((edge) => ({
     title: edge.node.title[0].text,
     slug: edge.node._meta.uid,
   }))
+  const index = [...acc, ...page]
+
+  if (response.data.allArticles.pageInfo.hasNextPage) {
+    return loadIndexPages(
+      type,
+      index,
+      response.data.allArticles.pageInfo.endCursor
+    )
+  }
+
+  return index
+}
+
+async function loadIndex(type: ArticleType): Promise<BlogArticleIndexInfo[]> {
+  const cache = getIndexCache(type)
+  if (cache) return cache
+
+  const index = await loadIndexPages(type)
 
   setIndexCache(type, index)
   return index
 }
 
 async function loadArticle(
-  type: "essay" | "project",
+  type: ArticleType,
   slug: string
 ): Promise<BlogArticle> {
   const cache = getArticleCache(type, slug)
