@@ -30,7 +30,10 @@
   @import "responsive";
 
   .container {
-    margin: 24px 0;
+    padding: 24px 0;
+  }
+
+  form {
     padding: 16px;
     border: 1px solid var(--border_color);
 
@@ -113,25 +116,31 @@
   }
 </style>
 
-<form class="container" on:submit|preventDefault="{subscribeNewsLetter}">
-  <p class="sentence">
-    You can follow me
-    <a href="https://twitter.com/mattellsworth" target="_blank" rel="noopener">
-      on Twitter
-    </a>
-    or subscribe to my newsletter:
-  </p>
-  <div class="field">
-    <input
-      class="input"
-      type="email"
-      bind:value="{email}"
-      disabled="{loading}"
-    />
-    <button class="button" type="submit" disabled="{!valid}">
-      {#if loading}
-        <span class="loader"></span>
-      {:else}Subscribe{/if}
-    </button>
-  </div>
-</form>
+<div class="container">
+  <form on:submit|preventDefault="{subscribeNewsLetter}">
+    <p class="sentence">
+      You can follow me
+      <a
+        href="https://twitter.com/mattellsworth"
+        target="_blank"
+        rel="noopener"
+      >
+        on Twitter
+      </a>
+      or subscribe to my newsletter:
+    </p>
+    <div class="field">
+      <input
+        class="input"
+        type="email"
+        bind:value="{email}"
+        disabled="{loading}"
+      />
+      <button class="button" type="submit" disabled="{!valid}">
+        {#if loading}
+          <span class="loader"></span>
+        {:else}Subscribe{/if}
+      </button>
+    </div>
+  </form>
+</div>

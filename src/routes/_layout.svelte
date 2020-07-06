@@ -1,5 +1,6 @@
 <script>
   import Nav from "../components/Nav.svelte"
+  import SubscriptionForm from "../components/SubscriptionForm.svelte"
 
   export let segment
 </script>
@@ -7,6 +8,13 @@
 <style lang="scss">
   @import "app-colors";
   @import "responsive";
+
+  :global(html) {
+    height: 100%;
+  }
+  :global(#sapper) {
+    height: 100%;
+  }
 
   :global(body) {
     @include lightTheme;
@@ -22,6 +30,7 @@
       }
     }
 
+    height: 100%;
     min-width: 320px;
     margin: 0;
     background-color: var(--background);
@@ -34,7 +43,10 @@
     }
   }
 
-  main {
+  .page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     max-width: 700px;
     padding: 0 12px;
     margin: auto;
@@ -43,10 +55,18 @@
       padding: 0 8px;
     }
   }
+
+  main {
+    flex: 1;
+  }
 </style>
 
-<Nav {segment} />
+<div class="page">
+  <Nav {segment} />
 
-<main>
-  <slot />
-</main>
+  <main>
+    <slot />
+  </main>
+
+  <SubscriptionForm />
+</div>

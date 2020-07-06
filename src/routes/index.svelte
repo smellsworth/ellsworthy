@@ -15,7 +15,6 @@
 <script>
   import About from "../components/About.svelte"
   import BlogIndex from "../components/BlogIndex/BlogIndex.svelte"
-  import SubscriptionForm from "../components/SubscriptionForm.svelte"
 
   export let essays
   export let projects
@@ -29,5 +28,3 @@
 
 <BlogIndex title="Essays" urlPrefix="blog" posts="{essays}" />
 <BlogIndex title="Projects" urlPrefix="projects" posts="{projects}" />
-
-<SubscriptionForm />

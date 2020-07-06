@@ -6,19 +6,9 @@
   @import "responsive";
 
   nav {
-    padding: 0 12px;
-
-    @include phone {
-      padding: 0 8px;
-    }
-  }
-
-  .content {
     position: relative;
     display: flex;
     align-items: center;
-    max-width: 700px;
-    margin: auto;
     padding: 24px 0;
 
     @include phone {
@@ -37,7 +27,7 @@
     }
   }
 
-  .content_border {
+  .nav_border {
     &::after {
       opacity: 1;
     }
@@ -151,31 +141,29 @@
   }
 </style>
 
-<nav>
-  <div class="content" class:content_border="{!!segment}">
-    <a class="title" href="/">Ellsworthy</a>
-    <span class="empty-space"></span>
-    <ul>
-      <li>
-        <a
-          class="link"
-          rel="prefetch"
-          aria-current="{segment === 'blog' ? 'page' : undefined}"
-          href="blog"
-        >
-          Essays
-        </a>
-      </li>
-      <li>
-        <a
-          class="link"
-          rel="prefetch"
-          aria-current="{segment === 'projects' ? 'page' : undefined}"
-          href="projects"
-        >
-          Projects
-        </a>
-      </li>
-    </ul>
-  </div>
+<nav class:nav_border="{!!segment}">
+  <a class="title" href="/">Ellsworthy</a>
+  <span class="empty-space"></span>
+  <ul>
+    <li>
+      <a
+        class="link"
+        rel="prefetch"
+        aria-current="{segment === 'blog' ? 'page' : undefined}"
+        href="blog"
+      >
+        Essays
+      </a>
+    </li>
+    <li>
+      <a
+        class="link"
+        rel="prefetch"
+        aria-current="{segment === 'projects' ? 'page' : undefined}"
+        href="projects"
+      >
+        Projects
+      </a>
+    </li>
+  </ul>
 </nav>
