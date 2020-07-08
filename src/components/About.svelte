@@ -46,7 +46,7 @@
 </style>
 
 <div class="container">
-  <img alt="Success Kid" src="half-matt.png" />
+  <img alt="Matt illustration" src="half-matt.png" />
   <div>
     <p>Trying to figure out where/what to eat.</p>
     <p>
