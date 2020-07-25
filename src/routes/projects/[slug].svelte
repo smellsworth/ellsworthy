@@ -26,7 +26,7 @@
 </script>
 
 <svelte:head>
-  <title>{post.title}</title>
+  <title>{post.title} - Ellsworthy 🍕</title>
 </svelte:head>
 
 <h1>{post.title}</h1>

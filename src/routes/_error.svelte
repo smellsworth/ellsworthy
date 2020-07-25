@@ -6,36 +6,24 @@
 </script>
 
 <style>
-  h1,
-  p {
-    margin: 0 auto;
+  div {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-
-  h1 {
-    font-size: 2.8em;
-    font-weight: 700;
-    margin: 0 0 0.5em 0;
-  }
-
-  p {
-    margin: 1em auto;
-  }
-
-  @media (min-width: 480px) {
-    h1 {
-      font-size: 4em;
-    }
+  span {
+    font-size: 18px;
   }
 </style>
 
 <svelte:head>
-  <title>{status}</title>
+  <title>{error.message} - Ellsworthy 🍕</title>
 </svelte:head>
 
-<h1>{status}</h1>
-
-<p>{error.message}</p>
-
-{#if dev && error.stack}
-  <pre>{error.stack}</pre>
-{/if}
+<div>
+  <h1>
+    {status}
+    <span>{error.message}</span>
+  </h1>
+</div>

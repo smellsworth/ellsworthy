@@ -19,7 +19,7 @@
 </script>
 
 <svelte:head>
-  <title>Essays</title>
+  <title>Essays - Ellsworthy 🍕</title>
 </svelte:head>
 
 <BlogIndex title="Essays" urlPrefix="blog" {posts} />

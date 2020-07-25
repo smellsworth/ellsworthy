@@ -21,7 +21,7 @@
 </script>
 
 <svelte:head>
-  <title>Ellsworthy blog</title>
+  <title>Ellsworthy 🍕</title>
 </svelte:head>
 
 <About />
