@@ -14,6 +14,7 @@
     "test": "jest",
     "pre-commit": "lint-staged",
     "check-types": "tsc --noEmit",
+    "svelte-check": "svelte-check",
     "commit": "yarn pre-commit && git-cz"
   },
   "config": {
@@ -41,6 +42,7 @@
     "@rollup/plugin-commonjs": "14.0.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@rollup/plugin-replace": "^2.3.3",
+    "@tsconfig/svelte": "^1.0.3",
     "@types/jest": "^26.0.7",
     "@types/trouter": "^3.1.0",
     "@types/validator": "^13.1.0",
@@ -61,6 +63,7 @@
     "sapper": "^0.27.16",
     "sass": "^1.26.10",
     "svelte": "^3.24.0",
+    "svelte-check": "^0.1.56",
     "svelte-preprocess": "^4.0.8",
     "typescript": "^3.9.7",
     "vercel": "^19.2.0"

@@ -1,4 +1,4 @@
-import { NowRequest, NowResponse } from '@now/node'
+import type { NowRequest, NowResponse } from '@now/node'
 import isEmail from "validator/lib/isEmail"
 import { pushValue } from "../_firebase"
 

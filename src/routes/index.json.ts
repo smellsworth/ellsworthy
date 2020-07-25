@@ -1,4 +1,4 @@
-import { Request, Response } from "polka"
+import type { Request, Response } from "polka"
 import { loadEssayIndex, loadProjectIndex } from "../server-utils/blog"
 
 export async function get(req: Request, res: Response) {

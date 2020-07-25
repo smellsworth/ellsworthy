@@ -1,4 +1,4 @@
-import { NowRequest, NowResponse } from "@now/node"
+import type { NowRequest, NowResponse } from "@now/node"
 import { readValue } from "../../_firebase"
 
 export default async (req: NowRequest, res: NowResponse) => {
