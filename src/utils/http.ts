@@ -2,7 +2,7 @@ const get = (fetcher: typeof fetch) => async <T = any>(url: string): Promise<T> 
   const response = await fetcher(url)
 
   if (!response.ok) {
-    throw new Error(`Load url: "${url}" failed`)
+    throw { status: response.status, message: response.statusText }
   }
 
   const data = await response.json()

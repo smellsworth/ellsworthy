@@ -31,7 +31,7 @@ interface ArticleResponse {
     article: {
       title: PrismicTextNode[]
       content: PrismicNode[]
-    }
+    } | null
   }
 }
 
@@ -95,7 +95,7 @@ async function loadIndex(type: ArticleType): Promise<BlogArticleIndexInfo[]> {
 async function loadArticle(
   type: ArticleType,
   slug: string
-): Promise<BlogArticle> {
+): Promise<BlogArticle | undefined> {
   const cache = getArticleCache(type, slug)
   if (cache) return cache
 
@@ -109,6 +109,10 @@ async function loadArticle(
   `
 
   const response = await graphQlQuery<ArticleResponse>(query)
+  if (!response.data.article) {
+    return undefined
+  }
+
   const article = {
     slug,
     title: response.data.article.title[0].text,
@@ -127,11 +131,11 @@ async function loadProjectIndex(): Promise<BlogArticleIndexInfo[]> {
   return loadIndex("project")
 }
 
-async function loadEssay(slug: string): Promise<BlogArticle> {
+async function loadEssay(slug: string): Promise<BlogArticle | undefined> {
   return loadArticle("essay", slug)
 }
 
-async function loadProject(slug: string): Promise<BlogArticle> {
+async function loadProject(slug: string): Promise<BlogArticle | undefined> {
   return loadArticle("project", slug)
 }
 

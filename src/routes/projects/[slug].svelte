@@ -9,10 +9,10 @@
 
       return { post }
     } catch (e) {
-      if (e.message === "Not found") {
+      if (e.status === 404) {
         this.error(404, "Not found")
       } else {
-        this.error(500, "Page unavailable")
+        this.error(e.status, "Page unavailable")
       }
     }
   }
