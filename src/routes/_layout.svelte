@@ -61,15 +61,6 @@
   }
 </style>
 
-<svelte:head>
-  <meta
-    name="description"
-    content="Trying to figure out where/what to eat. COO @PandaScore. Food,
-    Esports, Business. Ex-Partner @500startups. Bad opinions are probably mine.
-    食い倒れ He/him."
-  />
-</svelte:head>
-
 <div class="page">
   <Nav {segment} />
 
