@@ -8,5 +8,6 @@ interface BlogArticleIndexInfo {
 interface BlogArticle {
   slug: string
   title: string
+  description: string
   content: UiNode[]
 }

@@ -27,6 +27,7 @@
 
 <svelte:head>
   <title>{post.title} - Ellsworthy 🍕</title>
+  <meta name="description" content="{post.description}" />
 </svelte:head>
 
 <h1>{post.title}</h1>

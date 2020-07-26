@@ -35,6 +35,16 @@ interface ArticleResponse {
   }
 }
 
+function isParagraphNode(node: PrismicNode): node is PrismicTextNode {
+  return node.type === "paragraph"
+}
+
+function getArticleDescription(nodes: PrismicNode[]): string {
+  const firstParagraph = nodes.find(isParagraphNode)
+
+  return firstParagraph?.text ?? ""
+}
+
 async function loadIndexPages(
   type: ArticleType,
   acc: BlogArticleIndexInfo[] = [],
@@ -116,6 +126,7 @@ async function loadArticle(
   const article = {
     slug,
     title: response.data.article.title[0].text,
+    description: getArticleDescription(response.data.article.content),
     content: await formatPrismicNodes(response.data.article.content),
   }
 
@@ -139,4 +150,10 @@ async function loadProject(slug: string): Promise<BlogArticle | undefined> {
   return loadArticle("project", slug)
 }
 
-export { loadEssayIndex, loadProjectIndex, loadEssay, loadProject }
+export {
+  getArticleDescription,
+  loadEssayIndex,
+  loadProjectIndex,
+  loadEssay,
+  loadProject,
+}
