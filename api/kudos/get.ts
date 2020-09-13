@@ -1,11 +1,11 @@
 import type { NowRequest, NowResponse } from "@now/node"
-import { readValue } from "../../_firebase"
+import { readValue } from "../_firebase"
 
 export default async (req: NowRequest, res: NowResponse) => {
   res.setHeader('content-type', 'application/json')
   try {
     const count = await readValue<number | null>(
-      `/kudos_count/${req.query.slug}`
+      `/kudos_count/${req.query.type}/${req.query.slug}`
     )
     const value = count || 0
     res.end(value.toString())

@@ -49,7 +49,7 @@ const loadKudos = (fetcher: typeof fetch) => async (
   slug: string
 ): Promise<number> => {
   try {
-    const url = `/api/kudos/get/${slug}`
+    const url = `/api/kudos/get?type=${type}&slug=${slug}`
     const response = await fetcher(url)
     return await response.json()
   } catch (e) {
@@ -64,7 +64,7 @@ const sendKudos = (fetcher: typeof fetch) => async (
 ): Promise<void> => {
   addKudos(type, slug)
   try {
-    const url = `/api/kudos/post/${slug}`
+    const url = `/api/kudos/post?type=${type}&slug=${slug}`
     await fetcher(url)
   } catch (e) {
     console.error(e)
