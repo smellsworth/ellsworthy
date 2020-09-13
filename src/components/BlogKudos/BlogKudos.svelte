@@ -2,18 +2,21 @@
   import { onMount } from "svelte"
   import PizzaSlices from "./PizzaSlices.svelte"
   import KudosButton from "./KudosButton.svelte"
-  import { loadKudos, sendKudos } from "./utils"
+  import { didSendKudos, loadKudos, sendKudos } from "./utils"
 
+  export let type
   export let slug
 
   let nbKudos = 0
   let status = "NOT_LOADED"
   let kudosSent = false
 
+  const sentInPreviousSession = didSendKudos(type, slug)
+
   onMount(async () => {
     status = "LOADING"
     try {
-      nbKudos = await loadKudos(fetch)(slug)
+      nbKudos = await loadKudos(fetch)(type, slug)
       status = "LOADED"
     } catch (e) {
       status = "FAILED"
@@ -21,7 +24,7 @@
   })
 
   function sendNewKudos() {
-    // sendKudos(fetch)(slug)
+    sendKudos(fetch)(type, slug)
     kudosSent = true
   }
 
@@ -61,6 +64,9 @@
       <div class="nb-kudos">{displayedKudos}</div>
       <PizzaSlices number="{10}" />
     </div>
-    <KudosButton sent="{kudosSent}" on:click="{sendNewKudos}" />
+    <KudosButton
+      sent="{kudosSent || sentInPreviousSession}"
+      on:click="{sendNewKudos}"
+    />
   {/if}
 </div>

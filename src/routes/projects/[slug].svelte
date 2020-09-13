@@ -38,4 +38,4 @@
   {/each}
 </div>
 
-<BlogKudos slug="{post.slug}" />
+<BlogKudos type="project" slug="{post.slug}" />
