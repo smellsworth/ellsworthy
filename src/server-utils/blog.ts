@@ -7,33 +7,57 @@ import {
 } from "./cache"
 import { formatPrismicNodes } from "./nodes"
 
-interface IndexResponse {
-  data: {
-    allArticles: {
-      pageInfo: {
-        hasNextPage: boolean
-        endCursor: string
-      }
-      edges: {
-        node: {
-          title: PrismicTextNode[]
-          _meta: {
-            uid: string
-          }
-        }
-      }[]
+interface IndexPageInfo {
+  hasNextPage: boolean
+  endCursor: string
+}
+
+interface IndexEdge {
+  node: {
+    title: PrismicTextNode[]
+    _meta: {
+      uid: string
     }
   }
 }
 
-interface ArticleResponse {
+interface IndexDataResponse {
+  pageInfo: IndexPageInfo
+  edges: IndexEdge[]
+}
+
+interface ItemDataResponse {
+  title: PrismicTextNode[]
+  content: PrismicNode[]
+}
+
+interface IndexArticleResponse {
   data: {
-    article: {
-      title: PrismicTextNode[]
-      content: PrismicNode[]
-    } | null
+    allArticles: IndexDataResponse
   }
 }
+
+interface IndexProjectResponse {
+  data: {
+    allProjects: IndexDataResponse
+  }
+}
+
+type IndexResponse = IndexArticleResponse | IndexProjectResponse
+
+interface ArticleResponse {
+  data: {
+    article: ItemDataResponse | null
+  }
+}
+
+interface ProjectResponse {
+  data: {
+    project: ItemDataResponse | null
+  }
+}
+
+type ItemResponse = ArticleResponse | ProjectResponse
 
 function isParagraphNode(node: PrismicNode): node is PrismicTextNode {
   return node.type === "paragraph"
@@ -45,11 +69,66 @@ function getArticleDescription(nodes: PrismicNode[]): string {
   return firstParagraph?.text ?? ""
 }
 
+const indexGraphQlKeys: {[key in ArticleType]: string} = {
+  essay: 'allArticles',
+  project: 'allProjects',
+}
+
+const itemGraphQlKeys: {[key in ArticleType]: string} = {
+  essay: 'article',
+  project: 'project',
+}
+
+function isArticleIndexResponse(response: IndexResponse): response is IndexArticleResponse {
+  return !!(response.data as any).allArticles
+}
+
+function isProjectIndexResponse(response: IndexResponse): response is IndexProjectResponse {
+  return !!(response.data as any).allProjects
+}
+
+function isArticleResponse(response: ItemResponse): response is ArticleResponse {
+  return !!(response.data as any).article
+}
+
+function isProjectResponse(response: ItemResponse): response is ProjectResponse {
+  return !!(response.data as any).project
+}
+
+function getIndexData(response: IndexResponse): IndexDataResponse {
+  if (isArticleIndexResponse(response)) {
+    return response.data.allArticles
+  }
+  if (isProjectIndexResponse(response)) {
+    return response.data.allProjects
+  }
+
+  return {
+    edges: [],
+    pageInfo: {
+      endCursor: '',
+      hasNextPage: false
+    }
+  }
+}
+
+function getItemData(response: ItemResponse): ItemDataResponse | null {
+  if (isArticleResponse(response)) {
+    return response.data.article
+  }
+  if (isProjectResponse(response)) {
+    return response.data.project
+  }
+
+  return null
+}
+
 async function loadIndexPages(
   type: ArticleType,
   acc: BlogArticleIndexInfo[] = [],
   startCursor?: string
 ): Promise<BlogArticleIndexInfo[]> {
+  const graphQlKey = indexGraphQlKeys[type]
   let params = "sortBy: meta_firstPublicationDate_DESC"
   if (startCursor) {
     params += `,after: "${startCursor}"`
@@ -57,7 +136,7 @@ async function loadIndexPages(
 
   const query = `
   {
-    allArticles(${params}) {
+    ${graphQlKey}(${params}) {
       pageInfo {
         hasNextPage
         endCursor
@@ -75,17 +154,18 @@ async function loadIndexPages(
   `
 
   const response = await graphQlQuery<IndexResponse>(query)
-  const page = response.data.allArticles.edges.map((edge) => ({
+  const indexData = getIndexData(response)
+  const page = indexData.edges.map((edge) => ({
     title: edge.node.title[0].text,
     slug: edge.node._meta.uid,
   }))
   const index = [...acc, ...page]
 
-  if (response.data.allArticles.pageInfo.hasNextPage) {
+  if (indexData.pageInfo.hasNextPage) {
     return loadIndexPages(
       type,
       index,
-      response.data.allArticles.pageInfo.endCursor
+      indexData.pageInfo.endCursor
     )
   }
 
@@ -109,25 +189,28 @@ async function loadArticle(
   const cache = getArticleCache(type, slug)
   if (cache) return cache
 
+  const graphQlKey = itemGraphQlKeys[type]
+
   const query = `
   {
-    article(uid: "${slug}", lang: "en-us") {
+    ${graphQlKey}(uid: "${slug}", lang: "en-us") {
       title
       content
     }
   }
   `
 
-  const response = await graphQlQuery<ArticleResponse>(query)
-  if (!response.data.article) {
+  const response = await graphQlQuery<ItemResponse>(query)
+  const data = getItemData(response)
+  if (!data) {
     return undefined
   }
 
   const article = {
     slug,
-    title: response.data.article.title[0].text,
-    description: getArticleDescription(response.data.article.content),
-    content: await formatPrismicNodes(response.data.article.content),
+    title: data.title[0].text,
+    description: getArticleDescription(data.content),
+    content: await formatPrismicNodes(data.content),
   }
 
   setArticleCache(type, article)
