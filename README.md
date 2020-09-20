@@ -156,7 +156,8 @@ Firebase function are only use in serverless function, this bring those advantag
 This blog is hosted on Vercel.  
 All files in folder `api` are deployed as serverless function (expect if filename start with `_`).  
 
-In Vercel settings, the framework preset should be set to `Sapper` which automatically set build command and output directory options.
+In Vercel settings, the framework preset should be set to `Sapper` which automatically set build command and output directory options.  
+The build command is overwrite with `yarn vercel-ci` to run type check, svelte check and unit test before building the app.
 
 ### Git integration
 
