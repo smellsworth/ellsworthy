@@ -8,9 +8,9 @@ export async function get(req: Request, res: Response) {
     if (!article) {
       res.writeHead(404)
       res.end()
+    } else {
+      res.end(JSON.stringify(article))
     }
-
-    res.end(JSON.stringify(article))
   } catch (error) {
     console.error(error)
     res.writeHead(500)

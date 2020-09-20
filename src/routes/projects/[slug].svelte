@@ -21,13 +21,31 @@
 <script>
   import Node from "../../components/BlogNode/Node.svelte"
   import BlogKudos from "../../components/BlogKudos/BlogKudos.svelte"
+  import { PROJECTS_URL, IMAGE_URL, TITLE } from "../../utils/metatags"
 
   export let post
+
+  const pageTitle = `${post.title} - ${TITLE}`
+  const pageUrl = `${PROJECTS_URL}/${post.slug}`
 </script>
 
 <svelte:head>
-  <title>{post.title} - Ellsworthy 🍕</title>
+  <title>{pageTitle}</title>
   <meta name="description" content="{post.description}" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="blog" />
+  <meta property="og:url" content="{pageUrl}" />
+  <meta property="og:title" content="{pageTitle}" />
+  <meta property="og:description" content="{post.description}" />
+  <meta property="og:image" content="{IMAGE_URL}" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="{pageUrl}" />
+  <meta property="twitter:title" content="{pageTitle}" />
+  <meta property="twitter:description" content="{post.description}" />
+  <meta property="twitter:image" content="{IMAGE_URL}" />
 </svelte:head>
 
 <h1>{post.title}</h1>
