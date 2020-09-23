@@ -239,7 +239,7 @@ async function formatPrismicNodes(_nodes: PrismicNode[]): Promise<UiNode[]> {
         uiNodes.push({
           type: "image",
           url: node.url,
-          alt: node.alt,
+          alt: node.alt ?? '',
           width: node.dimensions.width,
           height: node.dimensions.height,
         })
