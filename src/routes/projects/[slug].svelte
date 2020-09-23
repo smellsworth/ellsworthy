@@ -27,7 +27,7 @@
 
   const pageTitle = `${post.title} - ${TITLE}`
   const pageUrl = `${PROJECTS_URL}/${post.slug}`
-  const socialMediaImageUrl = post.socialMediaImageUrl ?? IMAGE_URL
+  const socialMediaImageUrl = post.socialMediaImageUrl || IMAGE_URL
 </script>
 
 <svelte:head>
