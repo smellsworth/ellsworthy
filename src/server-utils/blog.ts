@@ -196,6 +196,7 @@ async function loadArticle(
   {
     ${graphQlKey}(uid: "${slug}", lang: "en-us") {
       title
+      social_media_image
       content
     }
   }
