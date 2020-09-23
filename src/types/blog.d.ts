@@ -8,6 +8,7 @@ interface BlogArticleIndexInfo {
 interface BlogArticle {
   slug: string
   title: string
+  socialMediaImageUrl: string | null
   description: string
   content: UiNode[]
 }

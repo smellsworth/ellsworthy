@@ -27,6 +27,7 @@
 
   const pageTitle = `${post.title} - ${TITLE}`
   const pageUrl = `${BLOG_URL}/${post.slug}`
+  const socialMediaImageUrl = post.socialMediaImageUrl ?? IMAGE_URL
 </script>
 
 <svelte:head>
@@ -38,14 +39,14 @@
   <meta property="og:url" content="{pageUrl}" />
   <meta property="og:title" content="{pageTitle}" />
   <meta property="og:description" content="{post.description}" />
-  <meta property="og:image" content="{IMAGE_URL}" />
+  <meta property="og:image" content="{socialMediaImageUrl}" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="{pageUrl}" />
   <meta property="twitter:title" content="{pageTitle}" />
   <meta property="twitter:description" content="{post.description}" />
-  <meta property="twitter:image" content="{IMAGE_URL}" />
+  <meta property="twitter:image" content="{socialMediaImageUrl}" />
 </svelte:head>
 
 <h1>{post.title}</h1>

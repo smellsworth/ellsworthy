@@ -144,7 +144,7 @@ interface PrismicTextNode {
 interface PrismicImageNode {
   type: "image"
   url: string
-  alt: string
+  alt: string | null
   copyright: string | null
   dimensions: {
     width: number
@@ -174,3 +174,5 @@ interface PrismicEmbedNode {
 }
 
 type PrismicNode = PrismicTextNode | PrismicImageNode | PrismicEmbedNode
+
+type PrismicImage = Omit<PrismicImageNode, 'type'>

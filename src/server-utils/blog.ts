@@ -28,6 +28,7 @@ interface IndexDataResponse {
 
 interface ItemDataResponse {
   title: PrismicTextNode[]
+  social_media_image: PrismicImage | null
   content: PrismicNode[]
 }
 
@@ -209,6 +210,7 @@ async function loadArticle(
   const article = {
     slug,
     title: data.title[0].text,
+    socialMediaImageUrl: data.social_media_image?.url ?? null,
     description: getArticleDescription(data.content),
     content: await formatPrismicNodes(data.content),
   }
