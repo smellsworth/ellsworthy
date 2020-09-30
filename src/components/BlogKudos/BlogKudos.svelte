@@ -28,14 +28,6 @@
     kudosSent = true
   }
 
-  function createPizza() {
-    pizzaStatus = "preparing"
-  }
-
-  function cancelPizza() {
-    pizzaStatus = "not_started"
-  }
-
   $: displayedKudos = kudosSent ? nbKudos + 1 : nbKudos
 </script>
 
