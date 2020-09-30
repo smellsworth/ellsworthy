@@ -4,6 +4,8 @@
   let email = ""
   let subscriptionStatus = "NOT_SEND"
   $: loading = subscriptionStatus === "LOADING"
+  $: succeed = subscriptionStatus === "SUCCEED"
+  $: failed = subscriptionStatus === "FAILED"
   $: valid = isEmail(email)
 
   async function subscribeNewsLetter() {
@@ -44,6 +46,12 @@
   }
   .sentence {
     margin: 0 0 12px 0;
+  }
+  .error {
+    color: var(--error_color);
+  }
+  .success {
+    color: var(--success_color);
   }
   .field {
     height: 30px;
@@ -129,6 +137,14 @@
       </a>
       or subscribe to my newsletter:
     </p>
+    {#if failed}
+      <p class="sentence error">
+        Look like we have a problem, please retry later.
+      </p>
+    {/if}
+    {#if succeed}
+      <p class="sentence success">Email sent with success!</p>
+    {/if}
     <div class="field">
       <input
         class="input"

@@ -16,6 +16,12 @@ $cta_background-dark: #3498db;
 $cta_color-light: #ffffff;
 $cta_color-dark: #ffffff;
 
+$error_color-light: #e74c3c;
+$error_color-dark: #e74c3c;
+
+$success_color-light: #3498db;
+$success_color-dark: #3498db;
+
 @mixin lightTheme {
   --background: #{$background_light};
   --text: #{$text_light};
@@ -23,6 +29,8 @@ $cta_color-dark: #ffffff;
   --border_color: #{$border_color_light};
   --cta_background: #{$cta_background_light};
   --cta_color: #{$cta_color_light};
+  --error_color: #{$error_color_light};
+  --success_color: #{$success_color_light};
 }
 
 @mixin darkTheme {
@@ -32,4 +40,6 @@ $cta_color-dark: #ffffff;
   --border_color: #{$border_color_dark};
   --cta_background: #{$cta_background_dark};
   --cta_color: #{$cta_color_dark};
+  --error_color: #{$error_color_dark};
+  --success_color: #{$success_color_dark};
 }
