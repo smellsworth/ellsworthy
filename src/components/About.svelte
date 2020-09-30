@@ -45,6 +45,8 @@
   }
 </style>
 
+<!-- prettier-ignore -->
+<!-- use prettier ignore to avoid line breaks in paragraph which add unexpected spaces -->
 <div class="container">
   <img alt="Matt illustration" src="half-matt.png" />
   <div>
