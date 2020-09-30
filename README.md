@@ -130,7 +130,7 @@ npm install -D @sveltejs/svelte-virtual-list
 ## Content management
 
 To let Matt edit by himself articles and projects, this project use an headless CMS.  
-For this project Prismic was selected because there is a free plan without to much restrictions.  
+For this project, Prismic was selected because there is a free plan without to much restrictions.  
 
 All code about Prismic is in:
 - `src/server-utils/blog.ts`
@@ -140,31 +140,74 @@ All code about Prismic is in:
 
 HTTP request made to Prismic are only done on server side, here is advantages:
 - make possible to cache response for all users (Prismic API response can take several seconds with free plan).
-- all the code about create a graphQL request and format data for blog is only in backend, so there it make front-end bundle lighter.
+- all the code about create a graphQL request and format data for blog is only in backend, so it make front-end bundle lighter.
+
+### Prismic configuration
+
+Here is the custom types you should create to make this website working well:
+
+#### article
+This type is used for `Essays` pages  
+Fields to create:
+- UID, name: slug, app-id: `uid`
+- Title, name: Title, slug: `title`, params: only h1
+- Image, name: Social media image, slug: `social_media_image`, params: width 1200px height 627px
+- Rich Text, name: Content, slug: `content`, params: allow multiple paragraphs and target blank for links
+
+#### project
+This type is used for `Projects` pages  
+Fields to create:
+- UID, name: slug, app-id: `uid`
+- Title, name: Title, slug: `title`, params: only h1
+- Image, name: Social media image, slug: `social_media_image`, params: width 1200px height 627px
+- Rich Text, name: Content, slug: `content`, params: allow multiple paragraphs and target blank for links
 
 ## Email subscription and 🍕 kudos
 
 Email subscription and kudos for articles/projects are store in a firebase realtime database.  
 Even if realtime isn't used, this is the easiest way to store JSON data.  
 
-Firebase function are only use in serverless function, this bring those advantages:
+Firebase functions are only use in serverless function, this bring those advantages:
 - this avoid to expose Firebase token
 - it avoid to import firebase SDK in front-end bundle, so it make it lighter
+
+### Firebase configuration
+
+To make data readable only by our severless functions, you should set realtime database rules with this configuration:
+```json
+{
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {
+    ".read": "auth.uid === 'WEBSITE_BACKEND'",
+    ".write": "auth.uid === 'WEBSITE_BACKEND'"
+  }
+}
+```
+
+To get `FIREBASE_SERVICE_ACCOUNT` and `FIREBASE_PRIVATE_KEY`, you have to go in "Firebase console"/"Settings"/"Service account" and click on "Generate private key".
 
 ## Deployement on Vercel
 
 This blog is hosted on Vercel.  
 All files in folder `api` are deployed as serverless function (expect if filename start with `_`).  
 
-In Vercel settings, the framework preset should be set to `Sapper` which automatically set build command and output directory options.  
-The build command is overwrite with `yarn vercel-ci` to run type check, svelte check and unit test before building the app.
+### Vercel settings:
 
-### Git integration
+#### General
 
-This project use GitHub integration to automatically run a deployment on each push on `master` branch.  
+- Framework preset: `Sapper`
+> this preset will automatically set output directory options.  
+- Build command: `yarn vercel-ci`
+> this will run type check, svelte check and unit test before building the app.
 
-### Update on CMS update
+#### Git integration
 
-In git integration options there is the possibility to add webhooks urls.  
-To rebuild the website with new articles when a user publish an article in Prismic, the webhook url is set in Prismic configuration.
+To deploy automatically the website on code change, you should set the repository name depending where you host source code.
+> On each push on `master` branch, the website will be rebuild and deploy.
 
+To rebuild the website on content changes in CMS, you should create a "Deploy Hook" and copy the URL in Prismic settings (Settings/Webhooks).
+> Each time an article is publish in Prismic, the website will be rebuild and deploy.
+
+#### Environment Variables
+
+Environement variables to set are described in `Running the project` part.
