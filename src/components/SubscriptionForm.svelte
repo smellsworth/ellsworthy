@@ -143,7 +143,7 @@
       </p>
     {/if}
     {#if succeed}
-      <p class="sentence success">Email sent with success!</p>
+      <p class="sentence success">Welcome to the pizza party!</p>
     {/if}
     <div class="field">
       <input
