@@ -186,6 +186,10 @@ To make data readable only by our severless functions, you should set realtime d
 
 To get `FIREBASE_SERVICE_ACCOUNT` and `FIREBASE_PRIVATE_KEY`, you have to go in "Firebase console"/"Settings"/"Service account" and click on "Generate private key".
 
+> FIREBASE_SERVICE_ACCOUNT is the downloaded json file with all keys except `private_key`  
+> FIREBASE_PRIVATE_KEY is the value of `private_key` from the json file downloaded in Firebase  
+> To set FIREBASE_PRIVATE_KEY in Vercel, you should remove `\n` and replace them by line break in the input  
+
 ## Deployement on Vercel
 
 This blog is hosted on Vercel.  
